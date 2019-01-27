@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">TalkWithMe</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Trang chủ</string>
+    <string name="title_chat">Trò chuyện</string>
+    <string name="title_setting">Cài đặt</string>
+
+    <string name="FACEBOOK_APP_ID">544561452715896</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">5b691f9166f4181102ff030f31f64f85</string>
+    <string name="my_phone">Số điện thoại của bạn</string>
+    <string name="continued">Tiếp tục</string>
+    <string name="username">Tên hiển thị</string>
+    <string name="age">Năm sinh</string>
+    <string name="infor_user">Thông tin tài khoản</string>
+    <string name="vote_app">Vote Ứng dụng</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
+    <string name="setting">Cài đặt</string>
+    <string name="information">Giới thiệu</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="accoutkit_Login">Login With Code</string>
+    <string name="gender">Giới tính</string>
+</resources>

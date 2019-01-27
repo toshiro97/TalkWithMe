@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "346393201686",
+    "firebase_url": "https://talkwithme-4b2b0.firebaseio.com",
+    "project_id": "talkwithme-4b2b0",
+    "storage_bucket": "talkwithme-4b2b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346393201686:android:0ef42eab6f438645",
+        "android_client_info": {
+          "package_name": "com.toshiro97.talkwithme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346393201686-pbifcecsno01opadfqbgln0ao1eubuoa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toshiro97.talkwithme",
+            "certificate_hash": "146ec606969c4307630f4a59fe79a09e84afcc56"
+          }
+        },
+        {
+          "client_id": "346393201686-1muuith76fsb0o3om9iubq5s8ta79pac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ_2dLtrnHW7LCZmg5gA0r1ZwVgB-XRm4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346393201686-1muuith76fsb0o3om9iubq5s8ta79pac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
