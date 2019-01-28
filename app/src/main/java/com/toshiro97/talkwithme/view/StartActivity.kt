@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import com.toshiro97.talkwithme.R
 import kotlinx.android.synthetic.main.activity_start.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,6 +16,11 @@ import com.facebook.accountkit.ui.AccountKitConfiguration
 import com.facebook.accountkit.ui.LoginType
 import com.toshiro97.talkwithme.model.User
 import com.toshiro97.talkwithme.untils.Common
+import com.facebook.accountkit.AccountKitError
+import com.facebook.accountkit.AccountKitCallback
+import com.facebook.accountkit.AccountKit
+
+
 
 
 class StartActivity : AppCompatActivity() {
@@ -85,28 +91,45 @@ class StartActivity : AppCompatActivity() {
         if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
             val loginResult = data.getParcelableExtra<AccountKitLoginResult>(AccountKitLoginResult.RESULT_KEY)
 
-
-
             when {
                 loginResult.error != null -> Toast.makeText(this, loginResult.error!!.errorType.message + "", Toast.LENGTH_SHORT).show()
                 loginResult.wasCancelled() -> Toast.makeText(this, "SendAu Cancelled", Toast.LENGTH_SHORT).show()
                 else -> {
 
-                    val ccc = sPCode.defaultCountryCode.toString()
-                    val phone = eDphoneNumber.text.toString()
-                    val phoneNumber = ccc + phone
-
                     if (loginResult.accessToken != null) {
-                        Toast.makeText(this, "Access Token", Toast.LENGTH_SHORT).show()
 
-                        val userInfor = User(phoneNumber, "", "", true, 0, "", "", phoneNumber,13)
+                        AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
+                            override fun onSuccess(account: Account) {
+                                // Get Account Kit ID
+                                val accountKitId = account.id
 
-                        allUsersRef.document(phoneNumber)
-                                .set(userInfor)
-                                .addOnSuccessListener { Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show() }
-                                .addOnFailureListener { Toast.makeText(this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show() }
+                                // Get phone number
+                                val phoneNumber = account.phoneNumber
+                                if (phoneNumber != null) {
+                                    val phoneNumberString = phoneNumber.toString().substring(1,12)
+                                    Log.d("phoneNumberString",phoneNumberString)
 
-                        Common.phoneNumber = phoneNumber
+                                    Common.phoneNumber = phoneNumberString
+
+                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString,13)
+
+                                    allUsersRef.document(phoneNumberString)
+                                            .set(userInfor)
+                                            .addOnSuccessListener { Toast.makeText(this@StartActivity, "Đăng ký thành công", Toast.LENGTH_SHORT).show() }
+                                            .addOnFailureListener { Toast.makeText(this@StartActivity, "Đăng ký thất bại", Toast.LENGTH_SHORT).show() }
+
+                                }
+
+                            }
+
+                            override fun onError(error: AccountKitError) {
+                                // Handle Error
+                                Log.d("phoneNumberString",error.toString())
+                            }
+                        })
+
+
+
 
                     } else {
                         Toast.makeText(this, "Null Access Token", Toast.LENGTH_SHORT).show()

@@ -7,6 +7,10 @@ import android.os.Handler
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
+import com.facebook.accountkit.Account
+import com.facebook.accountkit.AccountKit
+import com.facebook.accountkit.AccountKitCallback
+import com.facebook.accountkit.AccountKitError
 import com.google.firebase.firestore.FirebaseFirestore
 import com.toshiro97.talkwithme.R
 import com.toshiro97.talkwithme.untils.Common
@@ -53,7 +57,7 @@ class ActivePasswordActivity : AppCompatActivity() {
                                                     "username", eDName.text.toString(),
                                                     "sex", radioButton!!.text.toString(),
                                                     "timeOnline", dateToSV,
-                                                    "age", eDAge.text.toString()
+                                                    "age", eDAge.text.toString().toInt()
 
                                             )
                                             .addOnSuccessListener {

@@ -77,8 +77,6 @@ class LoginActivity : AppCompatActivity() {
         if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
             val loginResult = data.getParcelableExtra<AccountKitLoginResult>(AccountKitLoginResult.RESULT_KEY)
 
-
-
             when {
                 loginResult.error != null -> Toast.makeText(this, loginResult.error!!.errorType.message + "", Toast.LENGTH_SHORT).show()
                 loginResult.wasCancelled() -> Toast.makeText(this, "SendAu Cancelled", Toast.LENGTH_SHORT).show()
