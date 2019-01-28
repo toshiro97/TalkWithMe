@@ -46,6 +46,7 @@
 
         <activity
             android:name="com.facebook.accountkit.ui.AccountKitActivity"
+            android:parentActivityName=".view.StartActivity"
              />
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.ActivePasswordActivity" />

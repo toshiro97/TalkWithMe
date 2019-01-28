@@ -100,23 +100,38 @@ class StartActivity : AppCompatActivity() {
 
                         AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
                             override fun onSuccess(account: Account) {
-                                // Get Account Kit ID
-                                val accountKitId = account.id
-
                                 // Get phone number
+                                showProcessBar()
                                 val phoneNumber = account.phoneNumber
                                 if (phoneNumber != null) {
+
+
                                     val phoneNumberString = phoneNumber.toString().substring(1,12)
-                                    Log.d("phoneNumberString",phoneNumberString)
 
                                     Common.phoneNumber = phoneNumberString
 
-                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString,13)
+                                    allUsersRef.document(phoneNumberString).get()
+                                            .addOnSuccessListener { document ->
+                                                if (document.exists()) {
+                                                    hiddenProcessBar()
+                                                    Toast.makeText(this@StartActivity,"Số điện thoại đã đăng ký",Toast.LENGTH_SHORT).show()
 
-                                    allUsersRef.document(phoneNumberString)
-                                            .set(userInfor)
-                                            .addOnSuccessListener { Toast.makeText(this@StartActivity, "Đăng ký thành công", Toast.LENGTH_SHORT).show() }
-                                            .addOnFailureListener { Toast.makeText(this@StartActivity, "Đăng ký thất bại", Toast.LENGTH_SHORT).show() }
+                                                } else {
+                                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString,13)
+
+                                                    allUsersRef.document(phoneNumberString)
+                                                            .set(userInfor)
+                                                            .addOnSuccessListener { Toast.makeText(this@StartActivity, "Đăng ký thành công", Toast.LENGTH_SHORT).show() }
+                                                            .addOnFailureListener { Toast.makeText(this@StartActivity, "Đăng ký thất bại", Toast.LENGTH_SHORT).show() }
+                                                    val i = Intent(this@StartActivity, ActivePasswordActivity::class.java)
+                                                    hiddenProcessBar()
+                                                    startActivity(i)
+                                                }
+                                            }
+                                            .addOnFailureListener { exception ->
+                                                Toast.makeText(this@StartActivity,"Thất bại",Toast.LENGTH_SHORT).show()
+                                            }
+
 
                                 }
 
@@ -128,9 +143,6 @@ class StartActivity : AppCompatActivity() {
                             }
                         })
 
-
-
-
                     } else {
                         Toast.makeText(this, "Null Access Token", Toast.LENGTH_SHORT).show()
                     }
@@ -138,8 +150,6 @@ class StartActivity : AppCompatActivity() {
 
                 }
             }
-            val i = Intent(this, ActivePasswordActivity::class.java)
-            startActivity(i)
 
         }
     }
@@ -148,7 +158,7 @@ class StartActivity : AppCompatActivity() {
         Handler().postDelayed({
             progcessBarAP.visibility = View.INVISIBLE
             linearAccessPhone.visibility = View.VISIBLE
-        }, 1000)
+        }, 100)
     }
 
     fun showProcessBar() {
