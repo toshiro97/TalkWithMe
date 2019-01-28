@@ -140,11 +140,7 @@ class StartActivity : AppCompatActivity() {
             }
             val i = Intent(this, ActivePasswordActivity::class.java)
             startActivity(i)
-            Toast.makeText(
-                    this,
-                    "ERROR",
-                    Toast.LENGTH_LONG)
-                    .show();
+
         }
     }
 
