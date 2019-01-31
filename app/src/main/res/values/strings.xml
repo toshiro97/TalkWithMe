@@ -19,4 +19,7 @@
     <string name="logout">Đăng xuất</string>
     <string name="accoutkit_Login">Login With Code</string>
     <string name="gender">Giới tính</string>
+    <string name="chat_people">Chat với mọi người nào !!!</string>
+    <string name="login_code">Đăng nhập với số điện thoại</string>
+    <string name="login_pass">Đăng nhập với mật khẩu</string>
 </resources>

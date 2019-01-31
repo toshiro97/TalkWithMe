@@ -32,15 +32,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="40dp"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical"
 
             >
 
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/logo_password" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.rilixtech.CountryCodePicker
+                    android:id="@+id/sPCode"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:ccp_defaultNameCode="VN"
+                    app:ccp_hideNameCode="true"
+
+
+                    />
+                <EditText
+                    android:id="@+id/eDphoneNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:inputType="number"
+
+                    />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/eDPassword"
@@ -61,16 +82,7 @@
                 android:text="@string/continued"
                 android:textColor="#FFF" />
 
-            <Button
-                android:id="@+id/btnAccoutKitLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/continue_button"
-                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
-                android:gravity="center"
-                android:text="@string/accoutkit_Login"
-                android:textColor="#FFF" />
+
         </LinearLayout>
     </LinearLayout>
 

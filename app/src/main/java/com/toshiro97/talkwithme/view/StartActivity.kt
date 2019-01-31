@@ -5,10 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import com.toshiro97.talkwithme.R
 import kotlinx.android.synthetic.main.activity_start.*
 import com.google.firebase.firestore.FirebaseFirestore
-import android.view.View
 import android.widget.Toast
 import com.facebook.accountkit.*
 import com.facebook.accountkit.ui.AccountKitActivity
@@ -19,9 +19,8 @@ import com.toshiro97.talkwithme.untils.Common
 import com.facebook.accountkit.AccountKitError
 import com.facebook.accountkit.AccountKitCallback
 import com.facebook.accountkit.AccountKit
-
-
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 class StartActivity : AppCompatActivity() {
 
@@ -36,45 +35,23 @@ class StartActivity : AppCompatActivity() {
 
         progcessBarAP.visibility = View.INVISIBLE
 
-        btnContinue.setOnClickListener {
-            val ccc = sPCode.defaultCountryCode
-            val phone = eDphoneNumber.text.toString()
 
-            val phoneNumber = ccc + phone
+        btnLoginCode.setOnClickListener {
+            phoneAccess()
+        }
 
-
-            showProcessBar()
-            allUsersRef.document(phoneNumber).get()
-                    .addOnSuccessListener { document ->
-                        if (document.exists()) {
-                            Common.phoneNumber = phoneNumber
-                            val intent = Intent(StartActivity@ this, LoginActivity::class.java)
-                            hiddenProcessBar()
-                            Common.phoneNumber = phoneNumber
-                            Common.phone = phone
-                            Common.ccc = ccc
-                            startActivity(intent)
-                        } else {
-
-                            phoneAccess()
-                            hiddenProcessBar()
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(this,"Thất bại",Toast.LENGTH_SHORT).show()
-                    }
+        btnLoginPass.setOnClickListener {
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun phoneAccess() {
 
-        val ccc = sPCode.defaultCountryCode
-        val phone = eDphoneNumber.text.toString()
-
         val intent = Intent(this@StartActivity, AccountKitActivity::class.java)
         val configurationBuilder = AccountKitConfiguration.AccountKitConfigurationBuilder(
                 LoginType.PHONE,
-                AccountKitActivity.ResponseType.TOKEN).setInitialPhoneNumber(PhoneNumber(ccc, phone)) // or .ResponseType.TOKEN
+                AccountKitActivity.ResponseType.TOKEN) // or .ResponseType.TOKEN
         // ... perform additional configuration ...
         intent.putExtra(
                 AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
@@ -82,7 +59,8 @@ class StartActivity : AppCompatActivity() {
         startActivityForResult(intent, APP_REQUEST_CODE)
     }
 
-
+    //
+//
     override fun onActivityResult(
             requestCode: Int,
             resultCode: Int,
@@ -101,23 +79,37 @@ class StartActivity : AppCompatActivity() {
                         AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
                             override fun onSuccess(account: Account) {
                                 // Get phone number
-                                showProcessBar()
                                 val phoneNumber = account.phoneNumber
                                 if (phoneNumber != null) {
 
-
-                                    val phoneNumberString = phoneNumber.toString().substring(1,12)
+                                    val phoneNumberString = phoneNumber.toString().substring(1, 12)
 
                                     Common.phoneNumber = phoneNumberString
 
                                     allUsersRef.document(phoneNumberString).get()
                                             .addOnSuccessListener { document ->
                                                 if (document.exists()) {
-                                                    hiddenProcessBar()
-                                                    Toast.makeText(this@StartActivity,"Số điện thoại đã đăng ký",Toast.LENGTH_SHORT).show()
+                                                    val currentTime = Calendar.getInstance()
+                                                    val time = currentTime.time
+                                                    val formatDateSV = SimpleDateFormat("yyyyMMdd")
+                                                    val dateToSV = formatDateSV.format(time).toInt()
+
+                                                    allUsersRef.document(phoneNumberString)
+                                                            .update(
+                                                                    "timeOnline", dateToSV
+                                                            )
+                                                            .addOnSuccessListener {
+                                                                Toast.makeText(this@StartActivity, "Cập nhật thành công thời gian online", Toast.LENGTH_SHORT).show()
+                                                                val intent = Intent(this@StartActivity, HomeActivity::class.java)
+                                                                hiddenProcessBar()
+                                                                startActivity(intent)
+
+
+                                                            }
+                                                            .addOnFailureListener { Toast.makeText(this@StartActivity, "Cập nhật thất bại mật khẩu", Toast.LENGTH_SHORT).show() }
 
                                                 } else {
-                                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString,13)
+                                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString, 13)
 
                                                     allUsersRef.document(phoneNumberString)
                                                             .set(userInfor)
@@ -129,7 +121,7 @@ class StartActivity : AppCompatActivity() {
                                                 }
                                             }
                                             .addOnFailureListener { exception ->
-                                                Toast.makeText(this@StartActivity,"Thất bại",Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(this@StartActivity, "Thất bại", Toast.LENGTH_SHORT).show()
                                             }
 
 
@@ -139,7 +131,7 @@ class StartActivity : AppCompatActivity() {
 
                             override fun onError(error: AccountKitError) {
                                 // Handle Error
-                                Log.d("phoneNumberString",error.toString())
+                                Log.d("phoneNumberString", error.toString())
                             }
                         })
 
@@ -151,6 +143,9 @@ class StartActivity : AppCompatActivity() {
                 }
             }
 
+            showProcessBar()
+
+
         }
     }
 
@@ -158,7 +153,7 @@ class StartActivity : AppCompatActivity() {
         Handler().postDelayed({
             progcessBarAP.visibility = View.INVISIBLE
             linearAccessPhone.visibility = View.VISIBLE
-        }, 100)
+        }, 1000)
     }
 
     fun showProcessBar() {
