@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
 
 
 class OnClearFromRecentService : Service() {
@@ -26,7 +25,6 @@ class OnClearFromRecentService : Service() {
     override fun onTaskRemoved(rootIntent: Intent) {
         Log.e("ClearFromRecentService", "END")
         //Code here
-        FirebaseAuth.getInstance().signOut();
         stopSelf()
     }
 }

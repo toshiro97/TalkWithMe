@@ -14,6 +14,7 @@ import java.util.*
 import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.toshiro97.talkwithme.model.User
 import com.toshiro97.talkwithme.untils.Common
@@ -102,11 +103,9 @@ class ChatFragment : Fragment() {
                 val userCollection = it.toObjects(User::class.java)
                 Common.sendUser = userCollection[0]
 
-                val listUser: MutableList<String> ?= ArrayList()
-                listUser!!.add(userCollection[0].phoneNumber.toString())
                 allUsersRef.document(Common.phoneNumber)
                         .update(
-                                "listUser", listUser
+                                "listUser", FieldValue.arrayUnion(userCollection[0].phoneNumber.toString())
                         )
                         .addOnSuccessListener {
                             Toast.makeText(context, "Cập nhật list thành công", Toast.LENGTH_SHORT).show()

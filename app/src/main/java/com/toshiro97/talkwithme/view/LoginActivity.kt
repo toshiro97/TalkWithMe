@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
                         if (documentSnapshot.exists()) {
                             val user = documentSnapshot.toObject(User::class.java)
-                            if (user.password == eDPassword.text.toString()) {
+                            if (user!!.password == eDPassword.text.toString()) {
                                 val intent = Intent(this, HomeActivity::class.java)
                                 hiddenProcessBar()
                                 startActivity(intent)

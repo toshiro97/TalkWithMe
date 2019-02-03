@@ -60,15 +60,13 @@ class StartActivity : AppCompatActivity() {
         startActivityForResult(intent, APP_REQUEST_CODE)
     }
 
-    //
-//
     override fun onActivityResult(
             requestCode: Int,
             resultCode: Int,
-            data: Intent) {
+            data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
-            val loginResult = data.getParcelableExtra<AccountKitLoginResult>(AccountKitLoginResult.RESULT_KEY)
+            val loginResult = data!!.getParcelableExtra<AccountKitLoginResult>(AccountKitLoginResult.RESULT_KEY)
 
             when {
                 loginResult.error != null -> Toast.makeText(this, loginResult.error!!.errorType.message + "", Toast.LENGTH_SHORT).show()
@@ -102,7 +100,7 @@ class StartActivity : AppCompatActivity() {
                                                                     "timeOnline", dateToSV
                                                             )
                                                             .addOnSuccessListener {
-                                                                Common.currentUser = userProfile
+                                                                Common.currentUser = userProfile!!
                                                                 Toast.makeText(this@StartActivity, "Cập nhật thành công thời gian online", Toast.LENGTH_SHORT).show()
                                                                 val intent = Intent(this@StartActivity, HomeActivity::class.java)
                                                                 hiddenProcessBar()

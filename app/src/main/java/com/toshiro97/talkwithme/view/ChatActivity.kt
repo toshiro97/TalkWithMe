@@ -50,21 +50,24 @@ class ChatActivity : AppCompatActivity() {
     private fun getListChat() {
         val query : Query = referenceSend.orderByKey()
         query.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {
+            override fun onCancelled(p0: DatabaseError) {
 
             }
-            override fun onDataChange(dataSnapShot: DataSnapshot?) {
+
+            override fun onDataChange(p0: DataSnapshot) {
                 listChat.clear()
                 val chatMessengers : ArrayList<ChatMessenger> = ArrayList()
-                for (snapShot in dataSnapShot!!.children){
+                for (snapShot in p0!!.children){
                     val chatMessenger : ChatMessenger = snapShot.getValue(ChatMessenger::class.java)!!
                     chatMessengers.add(chatMessenger)
                 }
                 for (i in chatMessengers.size - 1 downTo 0){
                     listChat.add(chatMessengers[i])
                 }
-                recyclerChat.adapter.notifyDataSetChanged()
+                recyclerChat.adapter!!.notifyDataSetChanged()
             }
+
+
         })
     }
 }
