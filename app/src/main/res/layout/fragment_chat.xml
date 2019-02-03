@@ -27,6 +27,7 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/linearChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="5dp"
             android:paddingVertical="10dp"
-            android:text="Chọn giới tính bạn chat nào !!!"
+            android:text="@string/select_sex_chat"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:layout_marginTop="30dp"
@@ -76,6 +77,43 @@
 
         </RadioGroup>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="10dp"
+            android:text="@string/select_age_chat"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+            <SeekBar
+                android:id="@+id/seek_bar_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/tv_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:paddingHorizontal="10dp"
+                android:textSize="20sp"
+                />
+
+        </LinearLayout>
+
+
         <Button
             android:id="@+id/btnFindFriend"
             android:layout_width="wrap_content"
@@ -83,5 +121,13 @@
             android:layout_gravity="center_horizontal"
             android:text="Tìm bạn" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

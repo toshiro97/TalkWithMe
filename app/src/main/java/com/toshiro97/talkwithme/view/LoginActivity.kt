@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
                                 hiddenProcessBar()
                                 startActivity(intent)
                                 Common.phoneNumber = phoneNumber
+                                Common.currentUser = user
                             } else {
                                 hiddenProcessBar()
                                 Toast.makeText(this, "Mật khẩu không chính xác", Toast.LENGTH_SHORT).show()

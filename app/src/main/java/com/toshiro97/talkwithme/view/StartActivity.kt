@@ -21,6 +21,7 @@ import com.facebook.accountkit.AccountKitCallback
 import com.facebook.accountkit.AccountKit
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class StartActivity : AppCompatActivity() {
 
@@ -94,11 +95,14 @@ class StartActivity : AppCompatActivity() {
                                                     val formatDateSV = SimpleDateFormat("yyyyMMdd")
                                                     val dateToSV = formatDateSV.format(time).toInt()
 
+                                                    val userProfile = document.toObject(User::class.java)
+
                                                     allUsersRef.document(phoneNumberString)
                                                             .update(
                                                                     "timeOnline", dateToSV
                                                             )
                                                             .addOnSuccessListener {
+                                                                Common.currentUser = userProfile
                                                                 Toast.makeText(this@StartActivity, "Cập nhật thành công thời gian online", Toast.LENGTH_SHORT).show()
                                                                 val intent = Intent(this@StartActivity, HomeActivity::class.java)
                                                                 hiddenProcessBar()
@@ -106,15 +110,18 @@ class StartActivity : AppCompatActivity() {
 
 
                                                             }
-                                                            .addOnFailureListener { Toast.makeText(this@StartActivity, "Cập nhật thất bại mật khẩu", Toast.LENGTH_SHORT).show() }
+                                                            .addOnFailureListener { Toast.makeText(this@StartActivity, "Cập nhật thất bại thời gian online", Toast.LENGTH_SHORT).show() }
 
                                                 } else {
-                                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString, 13)
+                                                    val listUser: MutableList<String> ?= ArrayList()
+                                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString, 13,listUser)
 
                                                     allUsersRef.document(phoneNumberString)
                                                             .set(userInfor)
                                                             .addOnSuccessListener { Toast.makeText(this@StartActivity, "Đăng ký thành công", Toast.LENGTH_SHORT).show() }
                                                             .addOnFailureListener { Toast.makeText(this@StartActivity, "Đăng ký thất bại", Toast.LENGTH_SHORT).show() }
+
+                                                    Common.currentUser = userInfor
                                                     val i = Intent(this@StartActivity, ActivePasswordActivity::class.java)
                                                     hiddenProcessBar()
                                                     startActivity(i)
