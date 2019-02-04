@@ -12,7 +12,7 @@ class User {
     var age: Int? = null
     var desireAge : Int? = null
     var desireSex : String? = null
-    var listUser: MutableList<String> ?= null
+    var listUser: MutableList<User> ?= null
 
     constructor()
 
@@ -26,7 +26,7 @@ class User {
             timeCheck: String?,
             phoneNumber: String?,
             age: Int?,
-            listUser : MutableList<String>?,
+            listUser : MutableList<User>?,
             desireAge : Int?,
             desireSex : String?
     ) {

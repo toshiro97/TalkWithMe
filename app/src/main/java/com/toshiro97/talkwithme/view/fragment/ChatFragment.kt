@@ -106,7 +106,7 @@ class ChatFragment : Fragment() {
 
                     allUsersRef.document(Common.phoneNumber)
                             .update(
-                                    "listUser", FieldValue.arrayUnion(userCollection[0].phoneNumber.toString())
+                                    "listUser", FieldValue.arrayUnion(userCollection[0])
                             )
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Cập nhật list thành công", Toast.LENGTH_SHORT).show()
@@ -137,7 +137,7 @@ class ChatFragment : Fragment() {
 
                     allUsersRef.document(Common.phoneNumber)
                             .update(
-                                    "listUser", FieldValue.arrayUnion(userCollection[0].phoneNumber.toString())
+                                    "listUser", FieldValue.arrayUnion(userCollection[0])
                             )
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Cập nhật list thành công", Toast.LENGTH_SHORT).show()

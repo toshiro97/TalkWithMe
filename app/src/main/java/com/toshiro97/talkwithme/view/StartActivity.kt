@@ -111,7 +111,7 @@ class StartActivity : AppCompatActivity() {
                                                             .addOnFailureListener { Toast.makeText(this@StartActivity, "Cập nhật thất bại thời gian online", Toast.LENGTH_SHORT).show() }
 
                                                 } else {
-                                                    val listUser: MutableList<String> ?= ArrayList()
+                                                    val listUser: MutableList<User> ?= ArrayList()
                                                     val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString, 13,listUser , null , null)
 
                                                     allUsersRef.document(phoneNumberString)

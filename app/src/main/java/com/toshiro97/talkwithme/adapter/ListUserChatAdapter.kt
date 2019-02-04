@@ -11,10 +11,10 @@ import com.toshiro97.talkwithme.R
 import com.toshiro97.talkwithme.model.User
 import kotlinx.android.synthetic.main.item_user_layout.view.*
 
-class ListUserChatAdapter (userList : ArrayList<User>, itemUserListener: ItemUserListener
+class ListUserChatAdapter (userList : MutableList<User>, itemUserListener: ItemUserListener
 ): RecyclerView.Adapter<ListUserChatAdapter.ListUserChatViewHolder>(){
 
-    private var userList:ArrayList<User> = userList
+    private var userList:MutableList<User> = userList
     private var itemUserListener: ItemUserListener = itemUserListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListUserChatViewHolder {
