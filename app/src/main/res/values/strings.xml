@@ -24,4 +24,8 @@
     <string name="login_pass">Đăng nhập với mật khẩu</string>
     <string name="select_sex_chat">Chọn giới tính bạn chat nào !!!</string>
     <string name="select_age_chat">Chọn độ tuổi bạn chat</string>
+    <string name="all_sex">Tất cả</string>
+    <string name="male_sex">Nam</string>
+    <string name="female_sex">Nữ</string>
+    <string name="orther_sex">Khác</string>
 </resources>

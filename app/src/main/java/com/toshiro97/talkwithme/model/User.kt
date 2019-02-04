@@ -10,6 +10,8 @@ class User {
     var timeCheck: String? = null
     var phoneNumber: String? = null
     var age: Int? = null
+    var desireAge : Int? = null
+    var desireSex : String? = null
     var listUser: MutableList<String> ?= null
 
     constructor()
@@ -24,7 +26,9 @@ class User {
             timeCheck: String?,
             phoneNumber: String?,
             age: Int?,
-            listUser : MutableList<String>?
+            listUser : MutableList<String>?,
+            desireAge : Int?,
+            desireSex : String?
     ) {
         this.username = username
         this.password = password
@@ -36,6 +40,8 @@ class User {
         this.phoneNumber = phoneNumber
         this.age = age
         this.listUser = listUser
+        this.desireAge = desireAge
+        this.desireSex = desireSex
     }
 
 

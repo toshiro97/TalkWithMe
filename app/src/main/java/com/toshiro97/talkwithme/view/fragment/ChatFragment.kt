@@ -46,7 +46,7 @@ class ChatFragment : Fragment() {
         view.seek_bar_age.max = max
         view.seek_bar_age.progress = current-min
         view.tv_age.text = "" + current
-
+        age = current
 
         view.seek_bar_age.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -70,8 +70,6 @@ class ChatFragment : Fragment() {
         }
 
 
-
-
         return view
     }
 
@@ -84,40 +82,75 @@ class ChatFragment : Fragment() {
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val ageYear = year - age
 
-        Log.d("ageYear",ageYear.toString())
-
-
         currentTime.add(Calendar.DATE,-1)
         val time = currentTime.time
         val formatDateSV = SimpleDateFormat("yyyyMMdd")
         val dateToSV = formatDateSV.format(time)
 
-        val query = allUsersRef.whereEqualTo("sex",sex).whereEqualTo("age",ageYear)
-        query.orderBy("timeOnline").limit(1)
+        val desireAge = year - Common.currentUser.age!!
+        val desireSex = Common.currentUser.sex
 
-        query.get().addOnSuccessListener {
-            if (it.isEmpty){
-                Toast.makeText(context,"Không có thông tin thích hợp",Toast.LENGTH_SHORT).show()
-                hiddenProcessBar()
-            }else {
-                val userCollection = it.toObjects(User::class.java)
-                Common.sendUser = userCollection[0]
+        Log.d("sexAge", desireAge.toString() + desireSex.toString())
 
-                allUsersRef.document(Common.phoneNumber)
-                        .update(
-                                "listUser", FieldValue.arrayUnion(userCollection[0].phoneNumber.toString())
-                        )
-                        .addOnSuccessListener {
-                            Toast.makeText(context, "Cập nhật list thành công", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(context, ChatActivity::class.java)
-                            hiddenProcessBar()
-                            startActivity(intent)
+        if (view!!.radioAll.isChecked){
+            val query = allUsersRef.whereEqualTo("age", ageYear).whereEqualTo("desireSex",desireSex).whereEqualTo("desireAge",desireAge)
+            query.orderBy("timeOnline").limit(1)
+
+            query.get().addOnSuccessListener {
+                if (it.isEmpty) {
+                    Toast.makeText(context, "Không có thông tin thích hợp", Toast.LENGTH_SHORT).show()
+                    hiddenProcessBar()
+                } else {
+                    val userCollection = it.toObjects(User::class.java)
+                    Common.sendUser = userCollection[0]
+
+                    allUsersRef.document(Common.phoneNumber)
+                            .update(
+                                    "listUser", FieldValue.arrayUnion(userCollection[0].phoneNumber.toString())
+                            )
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Cập nhật list thành công", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(context, ChatActivity::class.java)
+                                hiddenProcessBar()
+                                startActivity(intent)
 
 
-                        }
-                        .addOnFailureListener { Toast.makeText(context, "Cập nhật thất bại mật khẩu", Toast.LENGTH_SHORT).show() }
+                            }
+                            .addOnFailureListener { Toast.makeText(context, "Cập nhật thất bại mật khẩu", Toast.LENGTH_SHORT).show() }
 
-                Log.d("userCollection", userCollection.toString())
+                    Log.d("userCollection", userCollection.toString())
+                }
+            }
+        }
+
+        else {
+            val query = allUsersRef.whereEqualTo("sex", sex).whereEqualTo("age", ageYear).whereEqualTo("desireSex",desireSex).whereEqualTo("desireAge",desireAge)
+            query.orderBy("timeOnline").limit(1)
+
+            query.get().addOnSuccessListener {
+                if (it.isEmpty) {
+                    Toast.makeText(context, "Không có thông tin thích hợp", Toast.LENGTH_SHORT).show()
+                    hiddenProcessBar()
+                } else {
+                    val userCollection = it.toObjects(User::class.java)
+                    Common.sendUser = userCollection[0]
+
+                    allUsersRef.document(Common.phoneNumber)
+                            .update(
+                                    "listUser", FieldValue.arrayUnion(userCollection[0].phoneNumber.toString())
+                            )
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Cập nhật list thành công", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(context, ChatActivity::class.java)
+                                hiddenProcessBar()
+                                startActivity(intent)
+
+
+                            }
+                            .addOnFailureListener { Toast.makeText(context, "Cập nhật thất bại mật khẩu", Toast.LENGTH_SHORT).show() }
+
+                    Log.d("userCollection", userCollection.toString())
+                }
             }
         }
 

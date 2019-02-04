@@ -112,7 +112,7 @@ class StartActivity : AppCompatActivity() {
 
                                                 } else {
                                                     val listUser: MutableList<String> ?= ArrayList()
-                                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString, 13,listUser)
+                                                    val userInfor = User(phoneNumberString, "", "", true, 0, "", "", phoneNumberString, 13,listUser , null , null)
 
                                                     allUsersRef.document(phoneNumberString)
                                                             .set(userInfor)
