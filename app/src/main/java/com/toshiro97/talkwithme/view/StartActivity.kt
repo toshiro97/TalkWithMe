@@ -1,5 +1,6 @@
 package com.toshiro97.talkwithme.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -155,15 +156,24 @@ class StartActivity : AppCompatActivity() {
     }
 
     fun hiddenProcessBar() {
-        Handler().postDelayed({
-            progcessBarAP.visibility = View.INVISIBLE
-            linearAccessPhone.visibility = View.VISIBLE
-        }, 1000)
+        progcessBarAP.visibility = View.INVISIBLE
+        linearAccessPhone.visibility = View.VISIBLE
+//        Handler().postDelayed({
+//            progcessBarAP.visibility = View.INVISIBLE
+//            linearAccessPhone.visibility = View.VISIBLE
+//        }, 1000)
     }
 
     fun showProcessBar() {
         progcessBarAP.visibility = View.VISIBLE
         linearAccessPhone.visibility = View.INVISIBLE
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        progcessBarAP.visibility = View.INVISIBLE
+        linearAccessPhone.visibility = View.VISIBLE
     }
 
 }

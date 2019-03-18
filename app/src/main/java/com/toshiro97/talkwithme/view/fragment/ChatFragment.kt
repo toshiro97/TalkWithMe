@@ -21,8 +21,8 @@ import com.toshiro97.talkwithme.untils.Common
 import com.toshiro97.talkwithme.view.ChatActivity
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
-
-
+import android.content.DialogInterface
+import android.support.v7.app.AlertDialog
 
 
 class ChatFragment : Fragment() {
@@ -36,7 +36,7 @@ class ChatFragment : Fragment() {
     var age = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_chat,container,false)
+        val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
         view.radioSex.setOnCheckedChangeListener { _, checkedId ->
             val radioButton = view!!.findViewById<RadioButton>(checkedId)
@@ -44,7 +44,7 @@ class ChatFragment : Fragment() {
         }
 
         view.seek_bar_age.max = max
-        view.seek_bar_age.progress = current-min
+        view.seek_bar_age.progress = current - min
         view.tv_age.text = "" + current
         age = current
 
@@ -66,14 +66,14 @@ class ChatFragment : Fragment() {
         })
 
         view.btnFindFriend.setOnClickListener {
-            getFriendChat(sex,age)
+            getFriendChat(sex, age)
         }
 
 
         return view
     }
 
-    private fun getFriendChat(sex: String, age : Int) {
+    private fun getFriendChat(sex: String, age: Int) {
 
         showProcessBar()
 
@@ -82,7 +82,7 @@ class ChatFragment : Fragment() {
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val ageYear = year - age
 
-        currentTime.add(Calendar.DATE,-1)
+        currentTime.add(Calendar.DATE, -1)
         val time = currentTime.time
         val formatDateSV = SimpleDateFormat("yyyyMMdd")
         val dateToSV = formatDateSV.format(time)
@@ -92,14 +92,15 @@ class ChatFragment : Fragment() {
 
         Log.d("sexAge", desireAge.toString() + desireSex.toString())
 
-        if (view!!.radioAll.isChecked){
-            val query = allUsersRef.whereEqualTo("age", ageYear).whereEqualTo("desireSex",desireSex).whereEqualTo("desireAge",desireAge)
+        if (view!!.radioAll.isChecked) {
+            val query = allUsersRef.whereEqualTo("age", ageYear).whereEqualTo("desireSex", desireSex).whereEqualTo("desireAge", desireAge)
             query.orderBy("timeOnline").limit(1)
 
             query.get().addOnSuccessListener {
                 if (it.isEmpty) {
                     Toast.makeText(context, "Không có thông tin thích hợp", Toast.LENGTH_SHORT).show()
                     hiddenProcessBar()
+                    showDialog(ageYear, desireSex!!, desireAge)
                 } else {
                     val userCollection = it.toObjects(User::class.java)
                     Common.sendUser = userCollection[0]
@@ -121,16 +122,15 @@ class ChatFragment : Fragment() {
                     Log.d("userCollection", userCollection.toString())
                 }
             }
-        }
-
-        else {
-            val query = allUsersRef.whereEqualTo("sex", sex).whereEqualTo("age", ageYear).whereEqualTo("desireSex",desireSex).whereEqualTo("desireAge",desireAge)
+        } else {
+            val query = allUsersRef.whereEqualTo("sex", sex).whereEqualTo("age", ageYear).whereEqualTo("desireSex", desireSex).whereEqualTo("desireAge", desireAge)
             query.orderBy("timeOnline").limit(1)
 
             query.get().addOnSuccessListener {
                 if (it.isEmpty) {
                     Toast.makeText(context, "Không có thông tin thích hợp", Toast.LENGTH_SHORT).show()
                     hiddenProcessBar()
+                    showDialog(ageYear, desireSex!!, desireAge)
                 } else {
                     val userCollection = it.toObjects(User::class.java)
                     Common.sendUser = userCollection[0]
@@ -155,6 +155,52 @@ class ChatFragment : Fragment() {
         }
 
     }
+
+    fun showDialog(ageYear: Int, desireSex: String, desireAge: Int) {
+        val builder = AlertDialog.Builder(context!!)
+        builder.setMessage("Bạn có muốn tìm bạn chat trong khoảng tuổi gần ấy không")
+                .setCancelable(false)
+                .setPositiveButton("Có", DialogInterface.OnClickListener { dialog, id ->
+                    run {
+//                        val query = allUsersRef.whereLessThan("age", ageYear + 5)
+//                        query.limit(1)
+//
+//                        query.get().addOnSuccessListener {
+//                            if (it.isEmpty) {
+//                                Toast.makeText(context, "Không có thông tin thích hợp", Toast.LENGTH_SHORT).show()
+//                                hiddenProcessBar()
+//                            } else {
+//                                val userCollection = it.toObjects(User::class.java)
+//                                Common.sendUser = userCollection[0]
+//
+//                                allUsersRef.document(Common.phoneNumber)
+//                                        .update(
+//                                                "listUser", FieldValue.arrayUnion(userCollection[0])
+//                                        )
+//                                        .addOnSuccessListener {
+//                                            Toast.makeText(context, "Cập nhật list thành công", Toast.LENGTH_SHORT).show()
+//                                            val intent = Intent(context, ChatActivity::class.java)
+//                                            hiddenProcessBar()
+//                                            startActivity(intent)
+//
+//
+//                                        }
+//                                        .addOnFailureListener { Toast.makeText(context, "Cập nhật thất bại mật khẩu", Toast.LENGTH_SHORT).show() }
+//
+//                                Log.d("userCollection", userCollection.toString())
+//                            }
+//                        }
+                    }
+                })
+                .setNegativeButton("Không ", DialogInterface.OnClickListener { dialog, id ->
+                    run {
+                        dialog.cancel();
+                    }
+                })
+        val alert = builder.create()
+        alert.show()
+    }
+
 
     fun hiddenProcessBar() {
         Handler().postDelayed({

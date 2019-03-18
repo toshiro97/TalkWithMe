@@ -7,4 +7,5 @@
     <color name="tab_checked">#f7941d</color>
     <color name="tab_unchecked">#bdbec0</color>
     <color name="color_main">#2bb673</color>
+    <color name="trans">#80000000</color>
 </resources>

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    >
+    android:background="@android:color/white">
 
 
     <LinearLayout
+        android:id="@+id/linearAccessPhone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/linearAccessPhone"
-        >
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
@@ -41,11 +38,19 @@
             android:orientation="vertical"
             tools:targetApi="o">
 
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginBottom="50dp"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="50dp"
+                    />
+            </RelativeLayout>
+
 
             <Button
                 android:id="@+id/btnLoginCode"
@@ -56,8 +61,9 @@
                 android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
                 android:gravity="center"
                 android:text="@string/login_code"
-                android:textColor="#FFF" />
+                android:textColor="#FFF"
 
+                />
 
             <Button
                 android:id="@+id/btnLoginPass"
@@ -68,7 +74,10 @@
                 android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
                 android:gravity="center"
                 android:text="@string/login_pass"
-                android:textColor="#FFF" />
+                android:textColor="#FFF"
+                android:layout_marginBottom="20dp"
+                />
+
         </LinearLayout>
     </LinearLayout>
 

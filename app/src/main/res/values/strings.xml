@@ -22,7 +22,7 @@
     <string name="chat_people">Chat với mọi người nào !!!</string>
     <string name="login_code">Đăng nhập với số điện thoại</string>
     <string name="login_pass">Đăng nhập với mật khẩu</string>
-    <string name="select_sex_chat">Chọn giới tính bạn chat nào !!!</string>
+    <string name="select_sex_chat">Chọn giới tính bạn chat nào</string>
     <string name="select_age_chat">Chọn độ tuổi bạn chat</string>
     <string name="all_sex">Tất cả</string>
     <string name="male_sex">Nam</string>

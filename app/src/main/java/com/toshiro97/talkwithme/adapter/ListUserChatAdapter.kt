@@ -11,15 +11,16 @@ import com.toshiro97.talkwithme.R
 import com.toshiro97.talkwithme.model.User
 import kotlinx.android.synthetic.main.item_user_layout.view.*
 
-class ListUserChatAdapter (userList : MutableList<User>, itemUserListener: ItemUserListener
-): RecyclerView.Adapter<ListUserChatAdapter.ListUserChatViewHolder>(){
+class ListUserChatAdapter(userList: MutableList<User>, userLastMes: MutableList<String>, itemUserListener: ItemUserListener
+) : RecyclerView.Adapter<ListUserChatAdapter.ListUserChatViewHolder>() {
 
-    private var userList:MutableList<User> = userList
+    private var userList: MutableList<User> = userList
     private var itemUserListener: ItemUserListener = itemUserListener
+    private var userLastMes: MutableList<String> = userLastMes
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListUserChatViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_user_layout,parent,false)
+                .inflate(R.layout.item_user_layout, parent, false)
         return ListUserChatViewHolder(itemView)
     }
 
@@ -29,18 +30,19 @@ class ListUserChatAdapter (userList : MutableList<User>, itemUserListener: ItemU
 
     override fun onBindViewHolder(holder: ListUserChatViewHolder, position: Int) {
         val item = userList[position]
+
         holder.tvNameUser!!.text = item.username
-        if (!item.sex!!.isEmpty()){
+        if (!item.sex!!.isEmpty()) {
             holder.imgSex!!.setImageResource(R.drawable.icon_user)
-        }else if(item.sex!! == "Nam"){
+        } else if (item.sex!! == "Nam") {
             holder.imgSex!!.setImageResource(R.drawable.icon_male)
-        }else{
+        } else {
             holder.imgSex!!.setImageResource(R.drawable.icon_female)
         }
 
-        if (item.isOnline!!){
+        if (item.isOnline!!) {
             holder.imgIsOnline!!.setImageResource(R.drawable.ic_fiber_manual_record_black_24dp)
-        }else{
+        } else {
             holder.imgIsOnline!!.visibility = View.INVISIBLE
         }
 
@@ -48,15 +50,18 @@ class ListUserChatAdapter (userList : MutableList<User>, itemUserListener: ItemU
             itemUserListener.onClickUser(position)
         }
 
+        holder.tvMessenger!!.text = userLastMes[position]
+
+
     }
 
 
     class ListUserChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvNameUser: TextView ?= null
-        var tvAge: TextView ?= null
-        var imgSex : ImageView ?=null
-        var imgIsOnline : ImageView ?= null
-        var tvMessenger : TextView ?= null
+        var tvNameUser: TextView? = null
+        var tvAge: TextView? = null
+        var imgSex: ImageView? = null
+        var imgIsOnline: ImageView? = null
+        var tvMessenger: TextView? = null
 
         init {
             tvNameUser = itemView.tvNameUser
